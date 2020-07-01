@@ -10,6 +10,7 @@ app.use((req, res, next) => {
     next();
 });
 
+
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.get('/', (req, res) => {
@@ -25,9 +26,16 @@ app.get('/contact', (req, res) => {
 });
 
 
+app.get('/user/settings', (req, res) => {
+    res.sendFile(path.join(__dirname, '/views/forbidden.html'));
+  });
+
+  app.get('/user/panel', (req, res) => {
+    res.sendFile(path.join(__dirname, '/views/forbidden.html'));
+  });
 
 app.use((req, res) => {
-    res.status(404).send('404 not found...');
+    res.status(404).sendFile(path.join(__dirname, '/views/forbidden.html'));
 });
 
 

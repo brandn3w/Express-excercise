@@ -3,3 +3,8 @@ h1 {
     font-style: italic;
     
   }
+
+  h2 {
+    list-style: none;
+    color: grey;
+  }

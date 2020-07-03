@@ -1,15 +1,20 @@
 const express = require('express');
 const path = require('path');
 const hbs = require('express-handlebars');
+const multer = require('multer');
 
 const app = express();
 app.engine('hbs', hbs());
 app.set('view engine', 'hbs');
 
+const upload = multer();
+
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.engine('.hbs', hbs({ extname: 'hbs', layoutsDir: './views/layouts', defaultLayout: 'main' }));
 app.set('view engine', '.hbs');
+
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/style.css', (req, res) => {
   res.sendFile(path.join(__dirname + '/public/style.css'));
@@ -33,6 +38,15 @@ app.get('/about', (req, res) => {
 
 app.get('/contact', (req, res) => {
   res.render('contact');
+});
+
+app.post('/contact/send-message', (req, res) => {
+  const { author, sender, title, message, file } = req.body;
+  if (author && sender && title && message && file) {
+    res.render('contact', { isSent: true });
+  } else {
+    res.render('contact', { isError: true });
+  }
 });
 
 app.get('/info', (req, res) => {
